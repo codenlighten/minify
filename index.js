@@ -12,6 +12,10 @@ const port = 3000;
 // Middleware to parse form data and JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+// Serve static files like CSS
+app.use(express.static(path.join(__dirname, "public")));
+
+// Your existing routes here...
 
 // Set up multer for file upload
 const upload = multer({ dest: "uploads/" });
@@ -19,24 +23,25 @@ const upload = multer({ dest: "uploads/" });
 // Serve the HTML form for file upload or pasting code
 app.get("/", (req, res) => {
   res.send(`
-    <h2>Upload JavaScript File or Paste JavaScript Code for Minification</h2>
-    <form ref='uploadForm' 
-      id='uploadForm' 
-      action='/minify-file' 
-      method='post' 
-      encType="multipart/form-data">
-        <label for="jsFile">Upload JavaScript File:</label><br>
-        <input type="file" name="jsFile" /><br><br>
-        <input type='submit' value='Upload and Minify!' />
-    </form>
+   <head>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h2>Upload JavaScript File or Paste JavaScript Code for Minification</h2>
+  <form ref='uploadForm' id='uploadForm' action='/minify-file' method='post' encType="multipart/form-data">
+    <label for="jsFile">Upload JavaScript File:</label><br>
+    <input type="file" name="jsFile" /><br><br>
+    <input type='submit' value='Upload and Minify!' />
+  </form>
 
-    <h3>OR</h3>
+  <h3>OR</h3>
 
-    <form id="pasteForm" action="/minify-text" method="post">
-      <label for="jsCode">Paste JavaScript Code:</label><br>
-      <textarea name="jsCode" rows="10" cols="50"></textarea><br><br>
-      <input type='submit' value='Minify Pasted Code!' />
-    </form>
+  <form id="pasteForm" action="/minify-text" method="post">
+    <label for="jsCode">Paste JavaScript Code:</label><br>
+    <textarea name="jsCode" rows="10" cols="50"></textarea><br><br>
+    <input type='submit' value='Minify Pasted Code!' />
+  </form>
+</body>
   `);
 });
 
