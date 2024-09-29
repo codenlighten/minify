@@ -23,25 +23,48 @@ const upload = multer({ dest: "uploads/" });
 // Serve the HTML form for file upload or pasting code
 app.get("/", (req, res) => {
   res.send(`
-   <head>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>JavaScript Minifier</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h2>Upload JavaScript File or Paste JavaScript Code for Minification</h2>
-  <form ref='uploadForm' id='uploadForm' action='/minify-file' method='post' encType="multipart/form-data">
-    <label for="jsFile">Upload JavaScript File:</label><br>
-    <input type="file" name="jsFile" /><br><br>
-    <input type='submit' value='Upload and Minify!' />
-  </form>
+  <header>
+    <h1>JavaScript Minifier</h1>
+    <p>Upload or paste your JavaScript code for minification.</p>
+  </header>
 
-  <h3>OR</h3>
+  <main>
+    <section>
+      <h2>Upload JavaScript File</h2>
+      <form id="uploadForm" action="/minify-file" method="post" enctype="multipart/form-data">
+        <label for="jsFile">Choose a file to upload:</label><br>
+        <input type="file" id="jsFile" name="jsFile" accept=".js" required><br><br>
+        <button type="submit">Upload and Minify!</button>
+      </form>
+    </section>
 
-  <form id="pasteForm" action="/minify-text" method="post">
-    <label for="jsCode">Paste JavaScript Code:</label><br>
-    <textarea name="jsCode" rows="10" cols="50"></textarea><br><br>
-    <input type='submit' value='Minify Pasted Code!' />
-  </form>
+    <section>
+      <h3>OR</h3>
+      <h2>Paste JavaScript Code</h2>
+      <form id="pasteForm" action="/minify-text" method="post">
+        <label for="jsCode">Enter your JavaScript code:</label><br>
+        <textarea id="jsCode" name="jsCode" rows="10" cols="50" placeholder="Paste your code here..." required></textarea><br><br>
+        <button type="submit">Minify Pasted Code!</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 JavaScript Minifier. All rights reserved.</p>
+  </footer>
 </body>
+</html>
+
   `);
 });
 
